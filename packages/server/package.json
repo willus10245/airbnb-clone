@@ -25,8 +25,7 @@
     "graphql-yoga": "^1.16.2",
     "pg": "^7.4.3",
     "reflect-metadata": "^0.1.12",
-    "typeorm": "0.2.7",
-    "uuid": "^3.3.2"
+    "typeorm": "0.2.7"
   },
   "resolutions": {
     "graphql": "14.0.2"
@@ -34,7 +33,7 @@
   "scripts": {
     "gen-schema-types": "gql2ts src/schema.graphql -o src/types/schema.d.ts",
     "start": "NODE_ENV=development nodemon --exec ts-node src/index.ts",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest --forceExit"
   },
   "jest": {
     "transform": {
