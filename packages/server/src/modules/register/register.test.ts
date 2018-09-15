@@ -24,31 +24,34 @@ beforeAll(async () => {
   host = `http://127.0.0.1:${port}`;
 });
 
-test("Register user", async () => {
-  // make sure we can register a user
-  const response = await request(host, mutation(email, password));
-  expect(response).toEqual({ register: null });
-  const users = await User.find({ where: { email } });
-  expect(users).toHaveLength(1);
-  const user = users[0];
-  expect(user.email).toEqual(email);
-  expect(user.password).not.toEqual(password);
+describe("Register user", () => {
+  test("make sure we can register a user", async () => {
+    const response = await request(host, mutation(email, password));
+    expect(response).toEqual({ register: null });
+    const users = await User.find({ where: { email } });
+    expect(users).toHaveLength(1);
+    const user = users[0];
+    expect(user.email).toEqual(email);
+    expect(user.password).not.toEqual(password);
 
-  // test for duplicate emails
-  const response2: any = await request(host, mutation(email, password));
-  expect(response2.register).toHaveLength(1);
-  expect(response2.register[0].message).toBe(duplicateEmail);
+    // test for duplicate emails
+    const response2: any = await request(host, mutation(email, password));
+    expect(response2.register).toHaveLength(1);
+    expect(response2.register[0].message).toBe(duplicateEmail);
+  });
 
-  // catch bad email
-  const response3: any = await request(
-    host,
-    mutation("emailemail.com", password)
-  );
-  expect(response3.register).toHaveLength(1);
-  expect(response3.register[0].message).toBe(invalidEmail);
+  test("catch bad email", async () => {
+    const response3: any = await request(
+      host,
+      mutation("emailemail.com", password)
+    );
+    expect(response3.register).toHaveLength(1);
+    expect(response3.register[0].message).toBe(invalidEmail);
+  });
 
-  // catch bad password
-  const response4: any = await request(host, mutation(email, "ab"));
-  expect(response4.register).toHaveLength(1);
-  expect(response4.register[0].message).toBe(shortPassword);
+  test("catch bad password", async () => {
+    const response4: any = await request(host, mutation(email, "ab"));
+    expect(response4.register).toHaveLength(1);
+    expect(response4.register[0].message).toBe(shortPassword);
+  });
 });
