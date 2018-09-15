@@ -1,10 +1,8 @@
 import { request } from "graphql-request";
 
-import { startServer } from "../../startServer";
 import { User } from "../../entity/User";
 import { duplicateEmail, invalidEmail, shortPassword } from "./errorResponse";
-
-let host = "";
+import { createTypeormConn } from "../../utils/createTypeormConn";
 
 const email = "bob@bob.com";
 const password = "password";
@@ -19,14 +17,15 @@ const mutation = (e: string, p: string) => `
 `;
 
 beforeAll(async () => {
-  const app = await startServer();
-  const { port } = app.address() as any;
-  host = `http://127.0.0.1:${port}`;
+  await createTypeormConn();
 });
 
 describe("Register user", () => {
   test("make sure we can register a user", async () => {
-    const response = await request(host, mutation(email, password));
+    const response = await request(
+      process.env.TEST_HOST as string,
+      mutation(email, password)
+    );
     expect(response).toEqual({ register: null });
     const users = await User.find({ where: { email } });
     expect(users).toHaveLength(1);
@@ -35,14 +34,17 @@ describe("Register user", () => {
     expect(user.password).not.toEqual(password);
 
     // test for duplicate emails
-    const response2: any = await request(host, mutation(email, password));
+    const response2: any = await request(
+      process.env.TEST_HOST as string,
+      mutation(email, password)
+    );
     expect(response2.register).toHaveLength(1);
     expect(response2.register[0].message).toBe(duplicateEmail);
   });
 
   test("catch bad email", async () => {
     const response3: any = await request(
-      host,
+      process.env.TEST_HOST as string,
       mutation("emailemail.com", password)
     );
     expect(response3.register).toHaveLength(1);
@@ -50,7 +52,10 @@ describe("Register user", () => {
   });
 
   test("catch bad password", async () => {
-    const response4: any = await request(host, mutation(email, "ab"));
+    const response4: any = await request(
+      process.env.TEST_HOST as string,
+      mutation(email, "ab")
+    );
     expect(response4.register).toHaveLength(1);
     expect(response4.register[0].message).toBe(shortPassword);
   });
