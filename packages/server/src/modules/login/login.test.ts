@@ -28,13 +28,13 @@ const loginMutation = (e: string, p: string) => `
 
 let conn: Connection;
 
-describe("login", () => {
+describe("login", async () => {
   beforeAll(async () => {
     conn = await createTypeormConn();
   });
 
   afterAll(async () => {
-    conn.close();
+    await conn.close();
   });
 
   test("returns error when logging in without registering first", async () => {
