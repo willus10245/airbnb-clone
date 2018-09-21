@@ -4,30 +4,30 @@ import { Connection } from "typeorm";
 import { createTypeormConn } from "../../utils/createTypeormConn";
 import { User } from "../../entity/User";
 
+const email = "bob5@bob.com";
+const password = "password";
+let conn: Connection;
+let userId: string;
+
+const loginMutation = (e: string, p: string) => `
+mutation {
+  login(email: "${e}", password: "${p}") {
+    path
+    message
+  }
+}
+`;
+
+const meQuery = `
+{
+  me {
+    id
+    email
+  }
+}
+`;
+
 describe("me", () => {
-  const email = "bob5@bob.com";
-  const password = "password";
-  let conn: Connection;
-  let userId: string;
-
-  const loginMutation = (e: string, p: string) => `
-    mutation {
-      login(email: "${e}", password: "${p}") {
-        path
-        message
-      }
-    }
-  `;
-
-  const meQuery = `
-    {
-      me {
-        id
-        email
-      }
-    }
-  `;
-
   beforeAll(async () => {
     conn = await createTypeormConn();
     const user = await User.create({
