@@ -1,30 +1,12 @@
-import { request } from "graphql-request";
 import { Connection } from "typeorm";
 
 import { invalidLogin, confirmEmailError } from "./errorMessages";
 import { User } from "../../entity/User";
 import { createTypeormConn } from "../../utils/createTypeormConn";
+import { TestClient } from "../../utils/TestClient";
 
 const email = "jim@bob.com";
 const password = "password";
-
-const registerMutation = (e: string, p: string) => `
-  mutation {
-    register(email: "${e}", password: "${p}") {
-      path
-      message
-    }
-  }
-`;
-
-const loginMutation = (e: string, p: string) => `
-  mutation {
-    login(email: "${e}", password: "${p}") {
-      path
-      message
-    }
-  }
-`;
 
 let conn: Connection;
 
@@ -38,12 +20,10 @@ describe("login", async () => {
   });
 
   test("returns error when logging in without registering first", async () => {
-    const response = await request(
-      process.env.TEST_HOST as string,
-      loginMutation("bob@bob.com", "password")
-    );
+    const client = new TestClient(process.env.TEST_HOST as string);
+    const response = await client.login(email, password);
 
-    expect(response).toEqual({
+    expect(response.data).toEqual({
       login: [
         {
           path: "email",
@@ -54,17 +34,11 @@ describe("login", async () => {
   });
 
   test("returns error when email not confirmed", async () => {
-    await request(
-      process.env.TEST_HOST as string,
-      registerMutation(email, password)
-    );
+    const client = new TestClient(process.env.TEST_HOST as string);
+    await client.register(email, password);
+    const response = await client.login(email, password);
 
-    const response = await request(
-      process.env.TEST_HOST as string,
-      loginMutation(email, password)
-    );
-
-    expect(response).toEqual({
+    expect(response.data).toEqual({
       login: [
         {
           path: "email",
@@ -77,12 +51,10 @@ describe("login", async () => {
   });
 
   test("bad password", async () => {
-    const response = await request(
-      process.env.TEST_HOST as string,
-      loginMutation(email, "pass")
-    );
+    const client = new TestClient(process.env.TEST_HOST as string);
+    const response = await client.login(email, "pass");
 
-    expect(response).toEqual({
+    expect(response.data).toEqual({
       login: [
         {
           path: "password",
