@@ -6,3 +6,4 @@ build/
 temp/
 yarn-error.log
 dump.rdb
+.env
