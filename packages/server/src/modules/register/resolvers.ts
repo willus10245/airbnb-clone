@@ -5,6 +5,7 @@ import { GQL } from "../../types/schema";
 import { User } from "../../entity/User";
 import { formatYupError } from "../../utils/formatYupError";
 import { duplicateEmail } from "./errorMessages";
+import { registerPasswordValidation } from "../../yupSchemas";
 // import { createConfirmEmailLink } from "../../utils/createConfirmEmailLink";
 // import { sendEmail } from "../../utils/sendEmail";
 
@@ -13,10 +14,7 @@ const schema = yup.object().shape({
     .string()
     .max(255)
     .email(),
-  password: yup
-    .string()
-    .min(3)
-    .max(255)
+  password: registerPasswordValidation
 });
 
 export const resolvers: ResolverMap = {
