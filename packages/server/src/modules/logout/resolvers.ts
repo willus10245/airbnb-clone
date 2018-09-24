@@ -1,5 +1,5 @@
 import { ResolverMap } from "../../types/graphql-utils";
-import { userSessionIdPrefix, redisSessionPrefix } from "../../constants";
+import { removeAllUserSessions } from "../../utils/removeAllUserSessions";
 
 export const resolvers: ResolverMap = {
   Query: {
@@ -9,18 +9,7 @@ export const resolvers: ResolverMap = {
     logout: async (_, __, { session, redis }) => {
       const { userId } = session;
       if (userId) {
-        const sessionIds = await redis.lrange(
-          `${userSessionIdPrefix}${userId}`,
-          0,
-          -1
-        );
-
-        const promises = [];
-        for (const sessionId of sessionIds) {
-          promises.push(redis.del(`${redisSessionPrefix}${sessionId}`));
-        }
-        await Promise.all(promises);
-
+        removeAllUserSessions(userId, redis);
         return true;
       }
 
