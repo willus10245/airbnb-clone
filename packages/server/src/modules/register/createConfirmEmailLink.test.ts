@@ -1,20 +1,21 @@
 import fetch from "node-fetch";
 import { Connection } from "typeorm";
+import * as faker from "faker";
 
 import { createConfirmEmailLink } from "./createConfirmEmailLink";
-import { createTypeormConn } from "./createTypeormConn";
-import { User } from "../entity/User";
-import { redis } from "../redis";
+import { createTestConn } from "../../testUtils/createTestConn";
+import { User } from "../../entity/User";
+import { redis } from "../../redis";
 
 let userId = "";
 
 let conn: Connection;
 
 beforeAll(async () => {
-  conn = await createTypeormConn();
+  conn = await createTestConn();
   const user = await User.create({
-    email: "bob5@bob.com",
-    password: "password"
+    email: faker.internet.email(),
+    password: faker.internet.password()
   }).save();
   userId = user.id;
 });

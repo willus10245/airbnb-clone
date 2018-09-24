@@ -11,11 +11,16 @@ import { createTypeormConn } from "./utils/createTypeormConn";
 import { genSchema } from "./utils/genSchema";
 import { confirmEmail } from "./routes/confirmEmail";
 import { redisSessionPrefix } from "./constants";
+import { createTestConn } from "./testUtils/createTestConn";
 
 const SESSION_SECRET = "asdhasudfasdf;lasjdgouahfb";
 const RedisStore = connectRedis(session);
 
 export const startServer = async () => {
+  if (process.env.NODE_ENV === "test") {
+    await redis.flushall();
+  }
+
   const server = new GraphQLServer({
     schema: genSchema(),
     context: ({ request }) => ({
@@ -65,7 +70,12 @@ export const startServer = async () => {
 
   server.express.get("/confirm/:id", confirmEmail);
 
-  await createTypeormConn();
+  if (process.env.NODE_ENV === "test") {
+    await createTestConn(true);
+  } else {
+    await createTypeormConn();
+  }
+
   const app = await server.start({
     cors,
     port: process.env.NODE_ENV === "test" ? 0 : 4000
