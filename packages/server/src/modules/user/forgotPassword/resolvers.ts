@@ -1,24 +1,21 @@
 import * as yup from "yup";
 import * as bcrypt from "bcryptjs";
 
-import { ResolverMap } from "../../types/graphql-utils";
-import { GQL } from "../../types/schema";
-import { forgotPasswordLockAccount } from "../../utils/forgotPasswordLockAccount";
-import { createForgotPasswordLink } from "../../utils/createForgotPasswordLink";
-import { User } from "../../entity/User";
+import { ResolverMap } from "../../../types/graphql-utils";
+import { GQL } from "../../../types/schema";
+import { forgotPasswordLockAccount } from "../../../utils/forgotPasswordLockAccount";
+import { createForgotPasswordLink } from "../../../utils/createForgotPasswordLink";
+import { User } from "../../../entity/User";
 import { userNotFoundError, expiredKeyError } from "./errorMessages";
-import { forgotPasswordPrefix } from "../../constants";
-import { registerPasswordValidation } from "../../yupSchemas";
-import { formatYupError } from "../../utils/formatYupError";
+import { forgotPasswordPrefix } from "../../../constants";
+import { registerPasswordValidation } from "../../../yupSchemas";
+import { formatYupError } from "../../../utils/formatYupError";
 
 const schema = yup.object().shape({
   newPassword: registerPasswordValidation
 });
 
 export const resolvers: ResolverMap = {
-  Query: {
-    bye3: () => "bye"
-  },
   Mutation: {
     sendForgotPasswordEmail: async (
       _,

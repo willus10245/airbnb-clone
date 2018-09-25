@@ -3,9 +3,9 @@ import { Connection } from "typeorm";
 import * as faker from "faker";
 
 import { createConfirmEmailLink } from "./createConfirmEmailLink";
-import { createTestConn } from "../../testUtils/createTestConn";
-import { User } from "../../entity/User";
-import { redis } from "../../redis";
+import { createTestConn } from "../../../testUtils/createTestConn";
+import { User } from "../../../entity/User";
+import { redis } from "../../../redis";
 
 let userId = "";
 

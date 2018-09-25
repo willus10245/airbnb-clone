@@ -2,12 +2,12 @@ import { Connection } from "typeorm";
 import * as Redis from "ioredis";
 import * as faker from "faker";
 
-import { createTestConn } from "../../testUtils/createTestConn";
-import { User } from "../../entity/User";
-import { TestClient } from "../../utils/TestClient";
-import { createForgotPasswordLink } from "../../utils/createForgotPasswordLink";
+import { createTestConn } from "../../../testUtils/createTestConn";
+import { User } from "../../../entity/User";
+import { TestClient } from "../../../utils/TestClient";
+import { createForgotPasswordLink } from "../../../utils/createForgotPasswordLink";
 import { forgotPasswordLockedError } from "../login/errorMessages";
-import { forgotPasswordLockAccount } from "../../utils/forgotPasswordLockAccount";
+import { forgotPasswordLockAccount } from "../../../utils/forgotPasswordLockAccount";
 import { shortPassword } from "../register/errorMessages";
 import { expiredKeyError } from "./errorMessages";
 
