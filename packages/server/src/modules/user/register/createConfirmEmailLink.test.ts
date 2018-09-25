@@ -12,6 +12,7 @@ let userId = "";
 let conn: Connection;
 
 beforeAll(async () => {
+  faker.seed(Date.now() + 4);
   conn = await createTestConn();
   const user = await User.create({
     email: faker.internet.email(),

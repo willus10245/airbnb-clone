@@ -6,6 +6,7 @@ import { duplicateEmail, invalidEmail, shortPassword } from "./errorMessages";
 import { createTestConn } from "../../../testUtils/createTestConn";
 import { TestClient } from "../../../utils/TestClient";
 
+faker.seed(Date.now() + 5);
 const email = faker.internet.email();
 const password = faker.internet.password();
 

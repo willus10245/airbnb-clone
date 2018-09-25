@@ -5,6 +5,7 @@ import { createTestConn } from "../../../testUtils/createTestConn";
 import { User } from "../../../entity/User";
 import { TestClient } from "../../../utils/TestClient";
 
+faker.seed(Date.now() + 3);
 const email = faker.internet.email();
 const password = faker.internet.password();
 let conn: Connection;

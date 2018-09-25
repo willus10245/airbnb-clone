@@ -12,6 +12,7 @@ import { shortPassword } from "../register/errorMessages";
 import { expiredKeyError } from "./errorMessages";
 
 describe("forgot password", () => {
+  faker.seed(Date.now() + 0);
   const email = faker.internet.email();
   const password = faker.internet.password();
   const newPassword = faker.internet.password();
