@@ -4,4 +4,5 @@ import { shortPassword } from "./modules//user/register/errorMessages";
 export const registerPasswordValidation = yup
   .string()
   .min(3, shortPassword)
-  .max(255);
+  .max(255)
+  .required();

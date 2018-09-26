@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as yup from "yup";
 import { Form, Icon, Input, Button } from "antd";
 import { withFormik, FormikErrors, FormikProps } from "formik";
 
@@ -15,11 +16,21 @@ interface Props {
 
 class C extends React.PureComponent<FormikProps<FormValues> & Props> {
   render() {
-    const { handleChange, handleBlur, handleSubmit, values } = this.props;
+    const {
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      values,
+      touched,
+      errors
+    } = this.props;
     return (
       <form style={{ display: "flex" }} onSubmit={handleSubmit}>
         <div style={{ width: 400, margin: "auto" }}>
-          <FormItem>
+          <FormItem
+            help={touched.email && errors.email ? errors.email : ""}
+            validateStatus={touched.email && errors.email ? "error" : undefined}
+          >
             <Input
               name="email"
               prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25" }} />}
@@ -29,7 +40,12 @@ class C extends React.PureComponent<FormikProps<FormValues> & Props> {
               onBlur={handleBlur}
             />
           </FormItem>
-          <FormItem>
+          <FormItem
+            help={touched.password && errors.password ? errors.password : ""}
+            validateStatus={
+              touched.password && errors.password ? "error" : undefined
+            }
+          >
             <Input
               name="password"
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25" }} />}
@@ -63,7 +79,22 @@ class C extends React.PureComponent<FormikProps<FormValues> & Props> {
   }
 }
 
+const invalidEmail = "email must be a valid email";
+
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email(invalidEmail)
+    .required(),
+  password: yup
+    .string()
+    .min(3)
+    .max(255)
+    .required()
+});
+
 export const RegisterView = withFormik<Props, FormValues>({
+  validationSchema,
   mapPropsToValues: () => ({ email: "", password: "" }),
   handleSubmit: async (values, { props, setErrors }) => {
     const errors = await props.submit(values);

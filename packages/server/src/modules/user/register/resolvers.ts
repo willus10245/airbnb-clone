@@ -13,7 +13,8 @@ const schema = yup.object().shape({
   email: yup
     .string()
     .max(255)
-    .email(),
+    .email()
+    .required(),
   password: registerPasswordValidation
 });
 
