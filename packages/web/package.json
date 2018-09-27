@@ -1,8 +1,9 @@
 {
-  "name": "web",
+  "name": "@airbnb-clone/web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@airbnb-clone/common": "1.0.0",
     "antd": "^3.9.3",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",

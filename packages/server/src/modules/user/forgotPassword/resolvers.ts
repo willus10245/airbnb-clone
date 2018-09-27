@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import * as bcrypt from "bcryptjs";
+import { registerPasswordValidation } from "@airbnb-clone/common";
 
 import { ResolverMap } from "../../../types/graphql-utils";
 import { GQL } from "../../../types/schema";
@@ -8,7 +9,6 @@ import { createForgotPasswordLink } from "../../../utils/createForgotPasswordLin
 import { User } from "../../../entity/User";
 import { userNotFoundError, expiredKeyError } from "./errorMessages";
 import { forgotPasswordPrefix } from "../../../constants";
-import { registerPasswordValidation } from "../../../yupSchemas";
 import { formatYupError } from "../../../utils/formatYupError";
 
 const schema = yup.object().shape({

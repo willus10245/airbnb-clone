@@ -1,8 +1,9 @@
 import { Connection } from "typeorm";
 import * as faker from "faker";
+import { invalidEmail, shortPassword } from "@airbnb-clone/common";
 
 import { User } from "../../../entity/User";
-import { duplicateEmail, invalidEmail, shortPassword } from "./errorMessages";
+import { duplicateEmail } from "./errorMessages";
 import { createTestConn } from "../../../testUtils/createTestConn";
 import { TestClient } from "../../../utils/TestClient";
 

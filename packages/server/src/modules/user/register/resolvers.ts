@@ -1,22 +1,12 @@
-import * as yup from "yup";
+import { validUserSchema } from "@airbnb-clone/common";
 
 import { ResolverMap } from "../../../types/graphql-utils";
 import { GQL } from "../../../types/schema";
 import { User } from "../../../entity/User";
 import { formatYupError } from "../../../utils/formatYupError";
 import { duplicateEmail } from "./errorMessages";
-import { registerPasswordValidation } from "../../../yupSchemas";
 // import { createConfirmEmailLink } from "../../utils/createConfirmEmailLink";
 // import { sendEmail } from "../../utils/sendEmail";
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .max(255)
-    .email()
-    .required(),
-  password: registerPasswordValidation
-});
 
 export const resolvers: ResolverMap = {
   Mutation: {
@@ -26,7 +16,7 @@ export const resolvers: ResolverMap = {
       // { redis, url }
     ) => {
       try {
-        await schema.validate(args, { abortEarly: false });
+        await validUserSchema.validate(args, { abortEarly: false });
       } catch (err) {
         return formatYupError(err);
       }

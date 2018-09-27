@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "@airbnb-clone/server",
   "version": "0.0.1",
   "description": "Awesome project developed with TypeORM.",
   "devDependencies": {
@@ -28,6 +28,7 @@
     "typescript": "2.9.2"
   },
   "dependencies": {
+    "@airbnb-clone/common": "1.0.0",
     "@gql2ts/from-schema": "^1.9.0",
     "bcryptjs": "^2.4.3",
     "connect-redis": "^3.3.3",

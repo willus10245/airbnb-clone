@@ -1,0 +1,19 @@
+{
+  "name": "@airbnb-clone/common",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "rm -rf ./dist && tsc"
+  },
+  "devDependencies": {
+    "@types/yup": "^0.24.9",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "typescript": "2.9.2"
+  },
+  "dependencies": {
+    "yup": "^0.26.6"
+  }
+}
