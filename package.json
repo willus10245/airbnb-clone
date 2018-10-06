@@ -1,5 +1,7 @@
 {
   "name": "airbnb-clone",
   "private": true,
-  "workspaces": ["packages/*"]
+  "workspaces": [
+    "packages/*"
+  ]
 }
