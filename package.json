@@ -1,7 +1,13 @@
 {
   "name": "airbnb-clone",
   "private": true,
+  "scripts": {
+    "build:server": "lerna run build --scope @airbnb-clone/* --ignore @airbnb-clone/web --ignore @airbnb-clone/controller"
+  },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "lerna": "^3.3.0"
+  }
 }
