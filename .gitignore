@@ -7,4 +7,6 @@ temp/
 *.log
 dump.rdb
 .env
+.env.*
 dist/
+.netlify
